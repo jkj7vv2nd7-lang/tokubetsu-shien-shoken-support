@@ -68,6 +68,7 @@ Gemini APIを利用する場合、現在のWeb版はブラウザからAPIへ直�
 - `SECURITY.md` — Gemini APIキー・個人情報の取り扱いに関する注意
 - `CHANGELOG.md` — 主なバージョン更新履歴
 - `.github/workflows/validate.yml` — GitHub Actionsによる構文・ID・バージョンの自動点検
-
+---
+GitHub連携によるVercel自動デプロイ確認済み
 ## ライセンス
 MIT License。学校等での利用・改変を想定しています。
