@@ -1,23 +1,30 @@
-# Changelog
+# v9.0.0 — 見取りOS正式版
 
-## v6.3.0
-- Added a dedicated 「前回からの変化」 viewer.
-- Added simple visual comparison of previous/current saved wording.
-- Added direct navigation from dashboard change items to the relevant student/category editor.
-- Strengthened diagnostic checks for the change viewer.
+## 今回の位置づけ
 
-## v6.2.0
-- Added 「最近の変化を確認」 to the dashboard.
-- Made comment saving transactional so failed storage writes roll back the in-memory change.
-- Hardened backup/download success handling.
-- Improved quick demo flow to land directly in the editor.
+v8.xで積み上げた「見取る→記録する→変化を見る→支援につなぐ→年間で振り返る」を統合し、先生自身の仕事を振り返る入口まで含めた「見取りOS」の正式版候補とする。
 
-## v6.1.0
-- Added 「今日のホーム」 and direct paths to the current student's work.
-- Added 「今、確認しやすいところ」 for practical daily navigation.
+## 追加
+- 「🧑‍🏫 先生の仕事レビュー」を追加。既存の comments / history のみから、記録枠、記録のある児童、保存履歴、2回以上記録した観点、年間3期間の履歴、直近14日の最新履歴を確認できる。
+- 観点ごとの振り返りから、その観点へ直接移動できる。
+- 先生が最後に確認する観点を明示。記録量や文章量から児童の状態を自動判定しない。
+- 見取りOSの設計思想を維持し、新しい入力画面・新しい永続データ項目は追加していない。
+- 公開前点検の必須DOM要素に先生の仕事レビューを追加。
 
-## v6.0.0
-- Added 「今日の仕事の流れ」.
-- Added a persistent 「3分ガイド」 quick-start bar and demo flow.
+## 維持
+- 所見作成、履歴、成長シート、面談準備、記録まとめ、次の支援、年度レビュー、ポートフォリオ、年間サイクル、次年度引き継ぎ
+- Excel / JSONバックアップ / 印刷 / デモ / 診断 / 異常系・運用シナリオ点検
+- 先生が最終判断する設計
 
-Earlier versions added diagnostics, smoke/abnormal/scenario tests, growth sheet, interview preparation, next support, annual review, portfolio, backup/restore, Excel export, print, theme support, and release checks.
+## 検証
+- APP_VERSION: 9.0.0
+- JavaScript構文: PASS
+- DOM ID重複: 0
+- 完全ブラウザE2E: 実行環境制約により未完走。公開前に実ブラウザ確認が必要。
+
+## 公開方針
+GitHubのPreview/PRで確認し、問題がなければ main に反映してVercel Productionへ進める。
+
+
+## 公開版
+この版はv9.0.0正式版候補をGitHub / Vercel / Vector向けに同梱した公開パッケージです。

@@ -16,7 +16,7 @@ GitHubで新しい空のリポジトリを作成します。既存ファイル�
 git init
 git branch -M main
 git add .
-git commit -m "Release v6.3.0"
+git commit -m "Release v9.0.0"
 git remote add origin https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY.git
 git push -u origin main
 ```

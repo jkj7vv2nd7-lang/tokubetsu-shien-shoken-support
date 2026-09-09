@@ -1,4 +1,4 @@
-# v6.3.0 公開前最終チェックリスト
+# v9.0.0 公開前最終チェックリスト
 
 ## 自動点検
 - [x] `index.html` の JavaScript 構文チェック
@@ -12,7 +12,7 @@
 - [ ] パッケージ一式を Push
 - [ ] Actions の検証が成功
 - [ ] README の表示を確認
-- [ ] Release v6.3.0 を作成
+- [ ] Release v9.0.0 を作成
 
 ## Vercel
 - [ ] GitHub リポジトリを Import
