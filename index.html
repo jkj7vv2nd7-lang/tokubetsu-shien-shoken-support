@@ -288,7 +288,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
     <div class="brand-mark" aria-hidden="true">所</div>
     <div class="brand-copy"><h1>特別支援学級 所見作成支援システム</h1><p>Web版 — メモから、温かく具体的な所見を。人の目で仕上げてExcelへ。</p></div><span class="badge no-print" title="現在のバージョン">v9.1.0</span>
     <div class="zoom-tools no-print" aria-label="画面表示倍率"><span>表示</span><button id="zoomOut" type="button" title="縮小">−</button><button id="zoomReset" type="button" title="標準">100</button><button id="zoomIn" type="button" title="拡大">＋</button></div><button id="themeToggle" class="theme-toggle no-print" type="button" title="ライト／ダーク切替" aria-label="ライト／ダーク切替"><span id="themeIcon" aria-hidden="true">☾</span><span id="themeLabel">ダーク</span></button>
-  <button id="dashboardBtn" class="theme-toggle no-print" type="button" title="現在の状況を見る" aria-label="現在の状況を見る"><span aria-hidden="true">🏠</span><span>見通し</span></button></div>
+  <button id="helpBtn" class="theme-toggle no-print" type="button" title="使い方・困ったとき" aria-label="使い方・困ったとき"><span aria-hidden="true">❓</span><span>ヘルプ</span></button><button id="dashboardBtn" class="theme-toggle no-print" type="button" title="現在の状況を見る" aria-label="現在の状況を見る"><span aria-hidden="true">🏠</span><span>見通し</span></button></div>
   <nav class="tabs no-print" aria-label="主要メニュー">
     <button class="tab-btn active" data-view="editorView" type="button">✍️ 所見づくり</button>
     <button class="tab-btn" data-view="boardView" type="button">🗂 進捗ボード</button>
@@ -670,11 +670,28 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
     <div class="dialog-actions"><button id="guide10CloseBtn" class="btn primary" type="button">始める</button></div>
   </div>
 </dialog>
+<dialog id="helpDialog">
+  <div class="dialog-body">
+    <h2>❓ 使い方・困ったとき</h2>
+    <p>この画面は、初めて使う先生が「次に何をすればよいか」を確認するための簡易ヘルプです。</p>
+    <div class="first-steps">
+      <div class="first-step"><b>① まず1人選ぶ</b><small>クラスと児童を選びます。</small></div>
+      <div class="first-step"><b>② 事実を書く</b><small>見取った事実・様子・支援をメモします。</small></div>
+      <div class="first-step"><b>③ 必要なら文章化</b><small>文章候補を使う場合も、先生が内容を確認します。</small></div>
+      <div class="first-step"><b>④ 保存する</b><small>確認した文章を保存すると、履歴や変化に再利用できます。</small></div>
+      <div class="first-step"><b>⑤ 次へつなぐ</b><small>成長・面談・次の支援・年度レビューへ進めます。</small></div>
+    </div>
+    <div class="record-summary-check" style="margin-top:12px"><strong>困ったときの確認</strong><br>・画面が変わらない → ブラウザを再読み込みしてから再操作<br>・保存できない → ブラウザの保存領域を確認し、必要ならJSONバックアップを利用<br>・文章候補を使わない → 事実メモと先生自身の文章だけでも利用可能<br>・外部送信が気になる → 文章化支援を使わず、入力・保存・Excel・バックアップを利用<br>・データを別の端末へ移したい → 「出力・データ」からバックアップ／復元を利用</div>
+    <div class="portfolio-note" style="margin-top:12px"><strong>大切な考え方</strong><br>このシステムは先生の判断を置き換えるものではありません。記録の意味づけ、所見の妥当性、支援方針、個人情報の取扱いは、所属機関のルールと先生の判断を優先してください。</div>
+    <div class="hint" style="margin-top:10px">公開版：v9.2.0 ／ v9.1.0の主要機能を維持し、利用者向けヘルプを追加しました。</div>
+    <div class="dialog-actions"><button id="helpCloseBtn" class="btn primary" type="button">閉じる</button></div>
+  </div>
+</dialog>
 <div id="toastZone" class="toast-zone" aria-live="polite"></div>
 
 <script>
 (()=>{'use strict';
-const APP_VERSION='9.1.0';const KEY='specialSupportCommentsWeb_v2';const OLDKEY='specialSupportCommentsWeb_v1';const SKEY='specialSupportGeminiSessionKey';let firstRun=true;try{firstRun=!localStorage.getItem(KEY)&&!localStorage.getItem(OLDKEY)}catch(e){firstRun=true}
+const APP_VERSION='9.2.1';const KEY='specialSupportCommentsWeb_v2';const OLDKEY='specialSupportCommentsWeb_v1';const SKEY='specialSupportGeminiSessionKey';let firstRun=true;try{firstRun=!localStorage.getItem(KEY)&&!localStorage.getItem(OLDKEY)}catch(e){firstRun=true}
 const uid=(p='id')=>p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
 const DEF_CATS=['国語','算数','生活','音楽','図画工作','体育','自立活動','道徳','総合所見'];
@@ -1024,7 +1041,23 @@ function renderDashboard(){
    const cls=x.priority<3?'priority':'';
    return `<button type="button" class="dashboard-queue-item" data-dashboard-student="${esc(x.s.id)}"><span class="dashboard-queue-main"><span class="dashboard-queue-name">${esc(x.s.name)}</span><span class="dashboard-queue-meta"><span class="dashboard-queue-badge ${cls}">${esc(label)}</span><span class="dashboard-queue-badge">${esc(status)}</span><span class="dashboard-queue-badge">記録 ${x.rec}/${state.categories.length}</span></span></span><span class="dashboard-queue-action">所見づくり →</span></button>`;
  }).join(''):'<div class="dashboard-queue-empty">児童が登録されていません。</div>';
- body.innerHTML=`<div class="today-work"><div class="today-work-head"><div><div class="today-work-title">🧭 今日の先生の仕事</div><div class="hint">既存の記録を見ながら、今日確認することを先生自身が選びます。自動判定ではありません。</div></div><div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><span class="dashboard-queue-badge">3分から開始</span><button class="btn primary small" type="button" data-dashboard-action="mitoriOS">🧭 見取りOS</button></div></div><div class="today-work-grid"><div class="today-work-card"><strong>① まず見る</strong><div class="hint">今日の見取り候補から、気になる子を1人選びます。</div><button class="btn ghost" type="button" data-dashboard-action="observe">候補を見る</button></div><div class="today-work-card"><strong>② 変化を確かめる</strong><div class="hint">前回までの記録と、今回の様子を照らし合わせます。</div><button class="btn ghost" type="button" data-dashboard-action="growth">変化を見る</button></div><div class="today-work-card"><strong>③ 次へつなぐ</strong><div class="hint">必要なら面談・次の支援・次年度の記録へ進みます。</div><button class="btn primary" type="button" data-dashboard-action="support">次の支援へ</button></div></div></div><div id="todayFocusBox"></div>
+ body.innerHTML=`<div class="today-work"><div class="today-work-head"><div><div class="today-work-title">🧭 今日の先生の仕事</div><div class="hint">既存の記録を見ながら、今日確認することを先生自身が選びます。自動判定ではありません。</div></div><div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><span class="dashboard-queue-badge">3分から開始</span><button class="btn primary small" type="button" data-dashboard-action="mitoriOS">🧭 見取りOS</button></div></div><div class="today-work-grid"><div class="today-work-card"><strong>① まず見る</strong><div class="hint">今日の見取り候補から、気になる子を1人選びます。</div><button class="btn ghost" type="button" data-dashboard-action="observe">候補を見る</button></div><div class="today-work-card"><strong>② 変化を確かめる</strong><div class="hint">前回までの記録と、今回の様子を照らし合わせます。</div><button class="btn ghost" type="button" data-dashboard-action="growth">変化を見る</button></div><div class="today-work-card"><strong>③ 次へつなぐ</strong><div class="hint">必要なら面談・次の支援・次年度の記録へ進みます。</div><button class="btn primary" type="button" data-dashboard-action="support">次の支援へ</button></div></div></div>
+<div class="dashboard-section" aria-label="先生の仕事の流れ">
+  <div class="today-work-head">
+    <div>
+      <h3 style="margin:0">🧭 先生の仕事を1本につなぐ</h3>
+      <div class="hint">「記録を作る」ことが目的ではありません。見取ったことを確かめ、必要な仕事へつなぎます。判断するのは先生です。</div>
+    </div>
+    <span class="dashboard-queue-badge">先生が最終判断</span>
+  </div>
+  <div class="workflow-grid" style="margin-top:10px">
+    <div class="workflow-step"><strong>① 見取る</strong><div class="hint">今日、確認したい子を選ぶ</div><button class="btn ghost" type="button" data-dashboard-flow="observe">候補を見る</button></div>
+    <div class="workflow-step"><strong>② 確かめる</strong><div class="hint">前回との変化を確認する</div><button class="btn ghost" type="button" data-dashboard-flow="growth">変化を見る</button></div>
+    <div class="workflow-step"><strong>③ 残す</strong><div class="hint">必要なことをいつもの欄へ</div><button class="btn ghost" type="button" data-dashboard-flow="record">所見づくり</button></div>
+    <div class="workflow-step"><strong>④ つなぐ</strong><div class="hint">面談・支援・次年度へ</div><button class="btn primary" type="button" data-dashboard-flow="support">次の支援へ</button></div>
+  </div>
+</div>
+<div id="todayFocusBox"></div>
 <div class="dashboard-note"><strong>「見通し」は先生の仕事を自動で決める画面ではありません。</strong><br>現在の記録状況を短時間で把握し、「どの児童・どの観点を見直すか」を先生自身が選ぶための入口です。新しい入力はここでは行いません。</div>
  <div class="dashboard-section"><h3>🧭 今日の仕事の流れ</h3><div class="hint">記録を増やすためではなく、すでにある記録を次の仕事へつなげるための4段階です。</div><div class="dashboard-actions" style="margin:9px 0"><button class="btn primary small" type="button" data-dashboard-action="cycle">🔄 この子の仕事の流れを開く</button><button class="btn primary small" type="button" data-dashboard-action="landscape">🌿 学級全体の見取り</button></div><div class="workflow-grid"><div class="workflow-step"><strong>① 見取る</strong><div class="hint">今日確認したい児童を選びます。</div><button class="btn ghost" type="button" data-dashboard-flow="observe">候補を見る</button></div><div class="workflow-step"><strong>② 記録する</strong><div class="hint">事実や所見を、いつもの入力欄に残します。</div><button class="btn ghost" type="button" data-dashboard-flow="record">所見づくり</button></div><div class="workflow-step"><strong>③ 振り返る</strong><div class="hint">前回の記録との変化を確認します。</div><button class="btn ghost" type="button" data-dashboard-flow="growth">成長シート</button></div><div class="workflow-step"><strong>④ 次へつなぐ</strong><div class="hint">面談や次の支援につなげます。</div><button class="btn primary" type="button" data-dashboard-flow="support">次の支援</button></div></div></div>
 <div class="dashboard-grid"><div class="dashboard-stat"><span class="label">このクラス</span><strong>${students.length}人</strong></div><div class="dashboard-stat"><span class="label">記録済み</span><strong>${recorded}<small style="font-size:.8rem"> / ${totalItems}件</small></strong></div><div class="dashboard-stat"><span class="label">未入力</span><strong>${pending}件</strong></div><div class="dashboard-stat"><span class="label">保存履歴</span><strong>${historyCount}件</strong></div></div>
@@ -1583,7 +1616,7 @@ function runSmokeTests(){
  toast(errors?`主要機能テスト：FAIL ${errors}件`:`主要機能テスト：PASS ${oks}件${warns?` / WARN ${warns}件`:''}`,errors?'error':warns?'warn':'');
  return {errors,warns,oks};
 }
-$('#annualCycleCloseBtn').onclick=()=>safeCloseDialog($('#annualCycleDialog'));$('#teacherReviewCloseBtn').onclick=()=>safeCloseDialog($('#teacherReviewDialog'));$('#annualCyclePrintBtn').onclick=()=>window.print();$('#changeViewCloseBtn').onclick=()=>safeCloseDialog($('#changeViewDialog'));$('#studentSnapshotCloseBtn').onclick=()=>safeCloseDialog($('#studentSnapshotDialog'));$('#studentStoryCloseBtn').onclick=()=>safeCloseDialog($('#studentStoryDialog'));$('#studentHandoffCloseBtn').onclick=()=>safeCloseDialog($('#studentHandoffDialog'));$('#studentHandoffPrintBtn').onclick=()=>window.print();$('#workCycleCloseBtn').onclick=()=>safeCloseDialog($('#workCycleDialog'));$('#changeFlowCloseBtn').onclick=()=>safeCloseDialog($('#changeFlowDialog'));$('#classLandscapeCloseBtn').onclick=()=>safeCloseDialog($('#classLandscapeDialog'));$('#mitoriOSCloseBtn').onclick=()=>safeCloseDialog($('#mitoriOSDialog'));
+$('#helpBtn').onclick=()=>safeShowModal($('#helpDialog'));$('#helpCloseBtn').onclick=()=>safeCloseDialog($('#helpDialog'));$('#annualCycleCloseBtn').onclick=()=>safeCloseDialog($('#annualCycleDialog'));$('#teacherReviewCloseBtn').onclick=()=>safeCloseDialog($('#teacherReviewDialog'));$('#annualCyclePrintBtn').onclick=()=>window.print();$('#changeViewCloseBtn').onclick=()=>safeCloseDialog($('#changeViewDialog'));$('#studentSnapshotCloseBtn').onclick=()=>safeCloseDialog($('#studentSnapshotDialog'));$('#studentStoryCloseBtn').onclick=()=>safeCloseDialog($('#studentStoryDialog'));$('#studentHandoffCloseBtn').onclick=()=>safeCloseDialog($('#studentHandoffDialog'));$('#studentHandoffPrintBtn').onclick=()=>window.print();$('#workCycleCloseBtn').onclick=()=>safeCloseDialog($('#workCycleDialog'));$('#changeFlowCloseBtn').onclick=()=>safeCloseDialog($('#changeFlowDialog'));$('#classLandscapeCloseBtn').onclick=()=>safeCloseDialog($('#classLandscapeDialog'));$('#mitoriOSCloseBtn').onclick=()=>safeCloseDialog($('#mitoriOSDialog'));
 $('#diagnosticBtn').onclick=()=>{safeShowModal($('#diagnosticDialog'));runDiagnostics()};
 $('#diagnosticRunBtn').onclick=runDiagnostics;
 $('#diagnosticSmokeBtn').onclick=runSmokeTests;
