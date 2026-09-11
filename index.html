@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>特別支援学級 所見作成支援システム Web版 v9.0.0</title>
+<title>特別支援学級 所見作成支援システム Web版 v9.1.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -286,7 +286,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
 <header class="topbar">
   <div class="brand-row">
     <div class="brand-mark" aria-hidden="true">所</div>
-    <div class="brand-copy"><h1>特別支援学級 所見作成支援システム</h1><p>Web版 — メモから、温かく具体的な所見を。人の目で仕上げてExcelへ。</p></div><span class="badge no-print" title="現在のバージョン">v9.0.0</span>
+    <div class="brand-copy"><h1>特別支援学級 所見作成支援システム</h1><p>Web版 — メモから、温かく具体的な所見を。人の目で仕上げてExcelへ。</p></div><span class="badge no-print" title="現在のバージョン">v9.1.0</span>
     <div class="zoom-tools no-print" aria-label="画面表示倍率"><span>表示</span><button id="zoomOut" type="button" title="縮小">−</button><button id="zoomReset" type="button" title="標準">100</button><button id="zoomIn" type="button" title="拡大">＋</button></div><button id="themeToggle" class="theme-toggle no-print" type="button" title="ライト／ダーク切替" aria-label="ライト／ダーク切替"><span id="themeIcon" aria-hidden="true">☾</span><span id="themeLabel">ダーク</span></button>
   <button id="dashboardBtn" class="theme-toggle no-print" type="button" title="現在の状況を見る" aria-label="現在の状況を見る"><span aria-hidden="true">🏠</span><span>見通し</span></button></div>
   <nav class="tabs no-print" aria-label="主要メニュー">
@@ -305,8 +305,8 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
   <div class="privacy-strip"><span aria-hidden="true">🔐</span><div><strong>個人情報の取扱い：</strong>データはこのブラウザ内だけに保存されます。AI生成時は「事実メモ」や選択したカテゴリー・観点などをGoogle Gemini APIへ送信します。氏名・住所・診断名などの個人情報は入力しないでください。</div></div>
   <div class="quick-start no-print" id="quickStartBar">
     <div aria-hidden="true" style="font-size:1.35rem">🚀</div>
-    <div class="quick-copy"><div class="quick-title">まずは3分。1人分の所見を保存してみましょう</div><div class="quick-sub">①児童を選ぶ → ②事実メモを書く → ③保存。AIを使わなくても始められます。</div></div>
-    <div class="quick-start-actions"><button id="quickStartBtn" class="btn primary" type="button">3分ガイド</button><button id="quickDemoBtn" class="btn ghost" type="button">デモで試す</button></div>
+    <div class="quick-copy"><div class="quick-title">まずは3分。1人分の所見を保存してみましょう</div><div class="quick-sub">①児童を選ぶ → ②事実メモを書く → ③保存。文章化支援を使わなくても始められます。</div></div>
+    <div class="quick-start-actions"><button id="quickStartBtn" class="btn primary" type="button">3分ガイド</button><button id="quickGuide10Btn" class="btn ghost" type="button">10分で使ってみる</button><button id="quickDemoBtn" class="btn ghost" type="button">デモで試す</button></div>
   </div>
 
   <div class="target-bar">
@@ -324,7 +324,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
   <div class="flow">
     <!-- STEP1&2 メモ→生成 -->
     <section class="panel" id="genPanel">
-      <div class="panel-head"><h2><span class="step-dot b">1</span>事実メモを入力 → <span class="step-dot">2</span>AIで候補を作る</h2></div>
+      <div class="panel-head"><h2><span class="step-dot b">1</span>事実メモを入力 → <span class="step-dot">2</span>文章候補を作る</h2></div>
       <div class="panel-body stack">
         <div class="field"><label for="factsInput">子どもの事実・様子・支援の手立て（箇条書きでOK）</label>
           <textarea id="factsInput" rows="6" placeholder="例）
@@ -349,10 +349,10 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
         </div>
         <div class="row-2">
           <div class="field"><label for="candCount">同時に作る候補数</label><select id="candCount"><option value="1">1案</option><option value="2">2案</option><option value="3" selected>3案（おすすめ）</option></select></div>
-          <div class="field" style="align-self:end"><button id="generateBtn" class="btn gen-btn big full" type="button">✨ AIで所見候補を作る</button></div>
+          <div class="field" style="align-self:end"><button id="generateBtn" class="btn gen-btn big full" type="button">✨ 文章候補を作る</button></div>
         </div>
         <div id="aiStatus" class="ai-status" role="status"></div>
-        <p class="hint">💡 メモは事実だけでOK。AIが観察できる行動表現に整え、否定的な決めつけや診断的表現を避けて作成します。生成結果は必ず先生が確認してください。</p>
+        <p class="hint">💡 メモは事実だけでOK。文章化支援が観察できる行動表現に整え、否定的な決めつけや診断的表現を避けて作成します。生成結果は必ず先生が確認してください。</p>
       </div>
     </section>
 
@@ -365,7 +365,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
           <button id="regenAllBtn" class="btn ghost small" type="button">🔄 全部もう一度</button>
         </div>
         <div id="candList" class="cand-list">
-          <div class="empty"><span class="big-emoji" aria-hidden="true">🪄</span>左にメモを入力して「AIで所見候補を作る」を押すと、ここに複数の候補が並びます。<br>候補ごとに「短く」「具体的に」などの再出力もできます。</div>
+          <div class="empty"><span class="big-emoji" aria-hidden="true">🪄</span>左にメモを入力して「文章候補を作る」を押すと、ここに複数の候補が並びます。<br>候補ごとに「短く」「具体的に」などの再出力もできます。</div>
         </div>
       </div>
     </section>
@@ -554,7 +554,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
 
 <!-- ===== 定型文・観点 ===== -->
 <section id="templatesView" class="view" aria-labelledby="templatesTitle">
-  <div class="page-head"><div><h2 id="templatesTitle">定型文・観点の管理</h2><p>よく使う表現と、AI生成で選べる「観点」を管理します。</p></div><button class="btn primary no-print" type="button" data-go="editorView">所見づくりへ →</button></div>
+  <div class="page-head"><div><h2 id="templatesTitle">定型文・観点の管理</h2><p>よく使う表現と、文章化支援で選べる「観点」を管理します。</p></div><button class="btn primary no-print" type="button" data-go="editorView">所見づくりへ →</button></div>
   <div class="settings-grid">
     <section class="panel"><div class="panel-head"><h3>＋ 新しい定型文</h3></div><div class="panel-body stack">
       <div class="field"><label for="templateCategoryInput">対象カテゴリー</label><select id="templateCategoryInput"></select></div>
@@ -565,7 +565,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
       <div class="inline-form"><div class="field"><label for="newCategoryInput">カテゴリー名</label><input id="newCategoryInput" type="text" placeholder="例：生活単元学習"></div><button id="addCategoryBtn" class="btn primary" type="button">追加</button></div>
       <div id="categoryManageList" class="category-list"></div>
     </div></section>
-    <section class="panel"><div class="panel-head"><h3>🔖 AI生成の観点タグ</h3></div><div class="panel-body">
+    <section class="panel"><div class="panel-head"><h3>🔖 文章化の観点タグ</h3></div><div class="panel-body">
       <div class="inline-form"><div class="field"><label for="newPerspectiveInput">観点名</label><input id="newPerspectiveInput" type="text" placeholder="例：意欲・主体性"></div><button id="addPerspectiveBtn" class="btn primary" type="button">追加</button></div>
       <div id="perspectiveManageList" class="category-list"></div>
     </div></section>
@@ -647,7 +647,7 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
       </div>
       <div class="hint">慣れてきたら、成長シート・面談準備・次の支援・Excel出力へつなげられます。</div>
     </div>
-    <p class="hint" style="margin-top:12px">AIを使わなくても、入力・保存・進捗管理・Excel出力・バックアップは利用できます。</p>
+    <p class="hint" style="margin-top:12px">文章化支援を使わなくても、入力・保存・進捗管理・Excel出力・バックアップは利用できます。</p>
     <label class="checkline"><input id="welcomeDontShow" type="checkbox"><span>次回からこの案内を表示しない</span></label>
     <div class="dialog-actions">
       <button id="welcomeDemoBtn" class="btn warn" type="button">デモデータを入れて試す</button>
@@ -655,11 +655,26 @@ dialog{border:0;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.35);width:
     </div>
   </div>
 </dialog>
+<dialog id="guide10Dialog">
+  <div class="dialog-body">
+    <h2>10分で使ってみる</h2>
+    <p>実際の仕事に近い順番で、1人分の記録から次の仕事までを一通り体験します。</p>
+    <div class="first-steps">
+      <div class="first-step"><b>① 1分：選ぶ</b><small>クラスと児童を選びます。</small></div>
+      <div class="first-step"><b>② 2分：見る</b><small>今日の様子を事実としてメモします。</small></div>
+      <div class="first-step"><b>③ 2分：文章化</b><small>必要なら文章候補を作ります。</small></div>
+      <div class="first-step"><b>④ 2分：確認</b><small>事実と表現を先生自身で確認します。</small></div>
+      <div class="first-step"><b>⑤ 3分：つなぐ</b><small>保存後に「変化」「次の支援」へ進みます。</small></div>
+    </div>
+    <div class="record-summary-check" style="margin-top:12px"><strong>大切なルール</strong><br>・一度の記録だけで子どもの状態を決めつけない<br>・本人の思いや選択を確認する<br>・文章候補はそのまま使わず、必ず先生が確認する<br>・個人情報を外部の文章化サービスへ送らない</div>
+    <div class="dialog-actions"><button id="guide10CloseBtn" class="btn primary" type="button">始める</button></div>
+  </div>
+</dialog>
 <div id="toastZone" class="toast-zone" aria-live="polite"></div>
 
 <script>
 (()=>{'use strict';
-const APP_VERSION='9.0.0';const KEY='specialSupportCommentsWeb_v2';const OLDKEY='specialSupportCommentsWeb_v1';const SKEY='specialSupportGeminiSessionKey';let firstRun=true;try{firstRun=!localStorage.getItem(KEY)&&!localStorage.getItem(OLDKEY)}catch(e){firstRun=true}
+const APP_VERSION='9.1.0';const KEY='specialSupportCommentsWeb_v2';const OLDKEY='specialSupportCommentsWeb_v1';const SKEY='specialSupportGeminiSessionKey';let firstRun=true;try{firstRun=!localStorage.getItem(KEY)&&!localStorage.getItem(OLDKEY)}catch(e){firstRun=true}
 const uid=(p='id')=>p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
 const DEF_CATS=['国語','算数','生活','音楽','図画工作','体育','自立活動','道徳','総合所見'];
@@ -838,7 +853,7 @@ $('#generateBtn').onclick=async()=>{const facts=$('#factsInput').value.trim();if
  catch(err){$('#aiStatus').textContent='生成エラー：'+err.message;toast(err.message,'error')}finally{$('#generateBtn').disabled=false}
 };
 $('#regenAllBtn').onclick=()=>$('#generateBtn').click();
-function renderCandidates(){const min=+state.settings.minChars,max=+state.settings.maxChars;if(!candidates.length){$('#candToolbar').style.display='none';$('#candHint').textContent='まだ生成していません';$('#candList').innerHTML='<div class="empty"><span class="big-emoji" aria-hidden="true">🪄</span>左にメモを入力して「AIで所見候補を作る」を押すと、ここに複数の候補が並びます。<br>候補ごとに「短く」「具体的に」などの再出力もできます。</div>';return}
+function renderCandidates(){const min=+state.settings.minChars,max=+state.settings.maxChars;if(!candidates.length){$('#candToolbar').style.display='none';$('#candHint').textContent='まだ生成していません';$('#candList').innerHTML='<div class="empty"><span class="big-emoji" aria-hidden="true">🪄</span>左にメモを入力して「文章候補を作る」を押すと、ここに複数の候補が並びます。<br>候補ごとに「短く」「具体的に」などの再出力もできます。</div>';return}
  $('#candToolbar').style.display='flex';$('#candHint').textContent=`${candidates.length}件の候補`;
  $('#candList').innerHTML=candidates.map((c,i)=>{const n=clen(c.text),ok=n>=min&&n<=max;return `<article class="cand" data-cand="${c.id}"><div class="cand-top"><span class="cand-no">候補 ${i+1}</span><span class="cand-len ${ok?'ok':'ng'}">${n}文字</span></div><div class="cand-text">${esc(c.text)}</div><div class="cand-acts"><button class="btn primary small" data-adopt="${c.id}" type="button">✓ この案を採用</button><button class="btn ghost small" data-copy="${c.id}" type="button">📋 コピー</button></div><div class="refine-bar"><span class="tag">再出力：</span><button class="mini-tool" data-refine="${c.id}" data-ins="全体をもう少し短く、要点を絞る" type="button">短く</button><button class="mini-tool" data-refine="${c.id}" data-ins="全体をもう少し長く、具体的な様子を加える" type="button">長く</button><button class="mini-tool" data-refine="${c.id}" data-ins="場面や行動をより具体的に描写する" type="button">具体的に</button><button class="mini-tool" data-refine="${c.id}" data-ins="より柔らかく親しみやすい表現にする" type="button">やわらかく</button><button class="mini-tool" data-refine="${c.id}" data-ins="表現や語彙を変えて別の切り口で書き直す" type="button">別案</button><button class="mini-tool" data-refine-custom="${c.id}" type="button">✎ 指示して直す</button></div></article>`}).join('');
  $$('[data-adopt]').forEach(b=>b.onclick=()=>adopt(b.dataset.adopt));
@@ -1589,9 +1604,11 @@ $('#toneSelect').value=state.settings.tone||'標準';$('#endingSelect').value=st
 let welcomeSeen=false;try{welcomeSeen=localStorage.getItem(KEY+'_welcomeSeen')==='1'}catch(e){welcomeSeen=false}
 const closeWelcome=()=>{if($('#welcomeDontShow').checked){try{localStorage.setItem(KEY+'_welcomeSeen','1')}catch(e){}}safeCloseDialog($('#welcomeDialog'))};
 $('#quickStartBtn').onclick=()=>safeShowModal($('#welcomeDialog'));
+$('#quickGuide10Btn').onclick=()=>safeShowModal($('#guide10Dialog'));
 $('#quickDemoBtn').onclick=()=>{try{safeCloseDialog($('#welcomeDialog'));$('#demoBtn').click();showView('editorView');setTimeout(()=>{$('#finalComment')?.focus()},80)}catch(e){toast('デモデータを開始できませんでした。','error')}};
 $('#welcomeCloseBtn').onclick=closeWelcome;
 $('#welcomeDemoBtn').onclick=()=>{safeCloseDialog($('#welcomeDialog'));$('#demoBtn').click();showView('editorView');setTimeout(()=>{$('#finalComment')?.focus()},80)};
+$('#guide10CloseBtn').onclick=()=>{safeCloseDialog($('#guide10Dialog'));showView('editorView');setTimeout(()=>$('#factsInput')?.focus(),80)};
 if(firstRun&&!welcomeSeen)safeShowModal($('#welcomeDialog'));
 })();
 </script>

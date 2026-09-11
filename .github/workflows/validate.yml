@@ -7,22 +7,40 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
       - name: Check version and syntax
         run: |
-          grep -q "const APP_VERSION='9.0.0'" index.html
+          grep -q "const APP_VERSION='9.1.0'" index.html
+
           test "$(sha256sum index.html | cut -d' ' -f1)" = "$(sha256sum app.html | cut -d' ' -f1)"
+
           python3 - <<'PY'
           import re
           from pathlib import Path
-          s=Path('index.html').read_text(encoding='utf-8')
-          ids=re.findall(r'\bid=["\']([^"\']+)',s)
-          assert len(ids)==len(set(ids)), 'duplicate HTML ids'
-          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
-          Path('/tmp/app.js').write_text('\n'.join(scripts),encoding='utf-8')
+
+          s = Path('index.html').read_text(encoding='utf-8')
+
+          ids = re.findall(r'\bid=["\']([^"\']+)', s)
+
+          assert len(ids) == len(set(ids)), 'duplicate HTML ids'
+
+          scripts = re.findall(
+              r'<script[^>]*>(.*?)</script>',
+              s,
+              re.S | re.I
+          )
+
+          Path('/tmp/app.js').write_text(
+              '\n'.join(scripts),
+              encoding='utf-8'
+          )
           PY
+
           node --check /tmp/app.js
