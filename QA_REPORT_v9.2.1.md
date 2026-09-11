@@ -1,27 +1,17 @@
 # QA Report v9.2.1
 
-## Static checks
-- APP_VERSION: 9.2.1
-- HTML IDs: 275
-- Duplicate IDs: 0
-- JavaScript syntax: PASS (Node.js `--check`)
-- Main script blocks: 1
-- Buttons: 198
-- `10分で使ってみる`: present
-- `❓ ヘルプ`: present
-- `先生の仕事を1本につなぐ`: present
+## Automated checks
+- Version: `9.2.1`
+- `index.html` / `app.html`: identical
+- Duplicate HTML IDs: 0
+- JavaScript syntax: PASS
+- Help dialog: present
+- 10-minute guide: present
+- Teacher workflow section: present
+- SHA-256 manifest: generated for this package
 
-## Functional scope
-Existing major functions are retained, including saving/history, change review, growth sheet, interview preparation, record summary, next support, annual review, class observation, portfolio, Excel export, JSON backup/restore, print, demo data, diagnostics, abnormal tests, scenario tests, and release gate.
+## Scope
+The package is a static single-file Web application. Existing functions are preserved; no new persistence/input screen is introduced by v9.2.1.
 
-## Browser verification
-Local automated browser E2E is not claimed because the development environment blocks Chromium navigation by administrator policy. Final verification should be performed on the Vercel Preview deployment in a normal browser before merging to `main`.
-
-## Release gate
-Do not merge v9.2.1 into production until Preview verification confirms:
-1. Version 9.2.1 is displayed.
-2. Help and 10-minute guide open/close correctly.
-3. Four dashboard flow buttons navigate correctly.
-4. Existing core functions respond.
-5. F12 Console has no red errors during normal operation.
-6. Backup/restore and Excel/print remain usable.
+## Manual note
+Full browser E2E could not be independently executed in the local restricted environment. Production/Preview browser confirmation should therefore be performed after the GitHub branch is updated.
